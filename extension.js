@@ -3,6 +3,7 @@
  * gnome-shell extension that indicates uptime in status area.
  * Loosely based on lapi's Uptime extension:
  *    https://extensions.gnome.org/extension/312/uptime/
+ *
  * Author: Gniourf, gniourfgniourf@gmail.com
  * Date: 2012-18-10
  */
@@ -102,7 +103,6 @@ UptimeIndicator.prototype=
    enable: function()
    {
       Main.panel._leftBox.add_actor(this.actor);
-      // Main.panel._menus.addMenu(this.menu);
    },
 
    disable: function()
