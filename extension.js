@@ -74,7 +74,7 @@ UptimeIndicator.prototype=
       let minutes=Math.floor(timestamps_s / 60 % 60);
       let hours=Math.floor(timestamps_s / 3600 % 24);
       let days=Math.floor(timestamps_s / 86400 % 365);
-      let years=Math.floor(timestamps_s / (365*86400));
+      let years=Math.floor(timestamps_s / 31536000);
       let label_text="";
       if(years>0) {
          label_text=years+"Y"+days+"D";
