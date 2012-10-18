@@ -80,18 +80,18 @@ UptimeIndicator.prototype=
       let label_text="";
       if(years>0) {
          label_text=years+"Y"+days+"D";
-         this._set_refresh_rate(365*24*60*60);
+         this._set_refresh_rate(31536000);
       }
       else if(days>99) {
          label_text=days+"D";
-         this._set_refresh_rate(24*60*60)
+         this._set_refresh_rate(86400)
       }
       else if(days>0) {
          if(hours < 10) {
             hours="0" + hours;
          }
          label_text=days+"D"+hours+"h";
-         this._set_refresh_rate(60*60);
+         this._set_refresh_rate(3600);
       }
       else {
          if(minutes < 10) {
