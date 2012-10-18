@@ -55,8 +55,10 @@ UptimeIndicator.prototype=
 
    _set_refresh_rate: function(refresh_rate)
    {
-      this._refresh_rate=refresh_rate;
-      this._change_timeoutloop=true;
+      if(this._refresh_rate!=refresh_rate) {
+         this._refresh_rate=refresh_rate;
+         this._change_timeoutloop=true;
+      }
    },
 
    _remove_timeout: function()
