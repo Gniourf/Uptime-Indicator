@@ -30,7 +30,7 @@ UptimeIndicator.prototype=
       PanelMenu.Button.prototype._init.call(this, St.Align.START);
 
       this.buttonText=new St.Label();
-      this.buttonText.set_style("text-align:center;");
+      this.buttonText.set_style("text-align:center;font-style:italic;");
       this.actor.add_actor(this.buttonText);
 
       this._set_refresh_rate(30)
