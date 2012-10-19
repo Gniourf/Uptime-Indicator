@@ -77,27 +77,32 @@ UptimeIndicator.prototype=
       let hours=Math.floor(timestamps_s / 3600 % 24);
       let days=Math.floor(timestamps_s / 86400 % 365);
       let years=Math.floor(timestamps_s / 31536000);
-      let label_text="";
+      let label_text="?";
       if(years>0) {
          label_text=years+"Y"+days+"D";
-         this._set_refresh_rate(31536000);
+         /* Come back at the end of this year */
+         this._set_refresh_rate(31536000-(timestamps_s)%31536000);
       }
       else if(days>99) {
          label_text=days+"D";
-         this._set_refresh_rate(86400)
+         /* Come back at the end of this day */
+         this._set_refresh_rate(86400-(timestamps_s%86400))
       }
       else if(days>0) {
          if(hours < 10) {
             hours="0" + hours;
          }
          label_text=days+"D"+hours+"h";
-         this._set_refresh_rate(3600);
+         /* Come back at the end of this hour */
+         this._set_refresh_rate(3600-(timestamps_s%3600))
       }
       else {
          if(minutes < 10) {
             minutes="0" + minutes;
          }
          label_text=hours+":"+minutes;
+         /* Come back at the end of this minute */
+         this._set_refresh_rate(60-(timestamps_s%60));
       }
       return label_text;
    },
