@@ -41,7 +41,7 @@ const UptimeIndicator=new Lang.Class(
       this.buttonText.set_text(this._update_uptime())
       if(this._change_timeoutloop) {
          this._remove_timeout();
-         this._timeout=Mainloop.timeout_add_seconds(this._refresh_rate , Lang.bind(this, this._refresh));
+         this._timeout=Mainloop.timeout_add_seconds(this._refresh_rate,Lang.bind(this, this._refresh));
          this._change_timeoutloop=false;
          return false;
       }
@@ -70,10 +70,10 @@ const UptimeIndicator=new Lang.Class(
    {
       let timestamps=Shell.get_file_contents_utf8_sync('/proc/uptime').split(" ");
       let timestamps_s=timestamps[0];
-      let minutes=Math.floor(timestamps_s / 60 % 60);
-      let hours=Math.floor(timestamps_s / 3600 % 24);
-      let days=Math.floor(timestamps_s / 86400 % 365);
-      let years=Math.floor(timestamps_s / 31536000);
+      let minutes=Math.floor((timestamps_s/60)%60);
+      let hours=Math.floor((timestamps_s/3600)%24);
+      let days=Math.floor((timestamps_s/86400)%365);
+      let years=Math.floor(timestamps_s/31536000);
       let label_text="?";
       if(years>0) {
          label_text=years+"Y"+days+"D";
