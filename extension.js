@@ -45,9 +45,7 @@ const UptimeIndicator=new Lang.Class(
          this._change_timeoutloop=false;
          return false;
       }
-      else {
-         return true;
-      }
+      return true;
    },
 
    _set_refresh_rate: function(refresh_rate)
