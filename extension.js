@@ -26,9 +26,12 @@ const UptimeIndicator=new Lang.Class(
    {
       this.parent(0.0,"Uptime Indicator");
 
+      this.button = new St.Bin({ style_class: "panel-button", reactive: true, can_focus: true, x_fill: true, y_fill: false, track_hover: true });
       this.buttonText=new St.Label();
       this.buttonText.set_style("text-align:center;font-style:italic;");
-      this.actor.add_actor(this.buttonText);
+      this.button.set_child(this.buttonText);
+      this.button.connect('button-press-event',Lang.bind(this,this._refresh));
+      this.actor.add_actor(this.button);
 
       this._set_refresh_rate(30)
       this._change_timeoutloop=true;
@@ -118,7 +121,12 @@ function init(metadata)
 function enable()
 {
    _uptime_indicator_object=new UptimeIndicator;
-    Main.panel.addToStatusArea('uptime-indicator',_uptime_indicator_object);
+   try {
+      Main.panel.addToStatusArea('uptime-indicator',_uptime_indicator_object);
+   }
+   catch(err) {
+      global.log("Error in Uptime Indicator extension: "+err.message);
+   }
 }
 
 // Disable function
