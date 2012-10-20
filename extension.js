@@ -5,7 +5,7 @@
  *    https://extensions.gnome.org/extension/312/uptime/
  *
  * Author: Gniourf, gniourfgniourf@gmail.com
- * Date: 2012-18-10
+ * Date: 2012-20-10
  */
 
 const PanelMenu=imports.ui.panelMenu;
@@ -15,19 +15,16 @@ const Shell=imports.gi.Shell;
 const Mainloop=imports.mainloop;
 const Lang=imports.lang;
 
-function UptimeIndicator(metadata)
-{
-   this._init();
-}
+let _uptime_indicator_object;
 
-// Prototype
-UptimeIndicator.prototype=
+const UptimeIndicator=new Lang.Class(
 {
-   __proto__: PanelMenu.Button.prototype,
+   Name: 'UptimeIndicator.UptimeIndicator',
+   Extends: PanelMenu.Button,
 
    _init: function()
    {
-      PanelMenu.Button.prototype._init.call(this, St.Align.START);
+      this.parent(0.0,"Uptime Indicator");
 
       this.buttonText=new St.Label();
       this.buttonText.set_style("text-align:center;font-style:italic;");
@@ -107,21 +104,29 @@ UptimeIndicator.prototype=
       return label_text;
    },
 
-   enable: function()
+   destroy: function()
    {
-      Main.panel._leftBox.add_actor(this.actor);
-   },
-
-   disable: function()
-   {
-      Main.panel._leftBox.remove_actor(this.actor);
       this._remove_timeout();
+      this.parent();
    }
-}
+});
 
 // Init function
 function init(metadata)
 {
-   return new UptimeIndicator(metadata);
+}
+
+// Enable function
+function enable()
+{
+   _uptime_indicator_object=new UptimeIndicator;
+    Main.panel.addToStatusArea('uptime-indicator',_uptime_indicator_object);
+}
+
+// Disable function
+function disable()
+{
+   _uptime_indicator_object.destroy();
+   delete _uptime_indicator_object;
 }
 
