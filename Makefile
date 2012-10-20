@@ -1,12 +1,23 @@
 destdir=$(HOME)/.local/share/gnome-shell/extensions/uptime-indicator@gniourfgniourf.gmail.com
+files=AUTHORS COPYING extension.js metadata.json TODO
+
+all:
+	@echo "make options:"
+	@echo "      install"
+	@echo "      uninstall"
+	@echo "      dist-zip"
+	@echo "      clean"
 
 install:
 	@install -Cdv "$(destdir)"
-	@install -Cv -m 644 extension.js metadata.json AUTHORS COPYING $(HOME)/.local/share/gnome-shell/extensions/"uptime-indicator@gniourfgniourf.gmail.com/"
+	@install -Cv -m 644 $(files) "$(destdir)"
+
+uninstall:
+	@-rm -rfv "$(destdir)"
 
 dist-zip:
-	zip -j uptime-indicator metadata.json extension.js
+	@zip -jv uptime-indicator $(files) Makefile
 
 clean:
-	-rm -f uptime-indicator.zip
+	@-rm -fv uptime-indicator.zip
 
