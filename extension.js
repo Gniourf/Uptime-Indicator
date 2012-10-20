@@ -15,7 +15,7 @@ const Shell=imports.gi.Shell;
 const Mainloop=imports.mainloop;
 const Lang=imports.lang;
 
-let _uptime_indicator_object;
+let _uptime_indicator_object=null;
 
 const UptimeIndicator=new Lang.Class(
 {
@@ -127,6 +127,6 @@ function enable()
 function disable()
 {
    _uptime_indicator_object.destroy();
-   delete _uptime_indicator_object;
+   _uptime_indicator_object=null;
 }
 
