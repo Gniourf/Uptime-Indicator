@@ -1,5 +1,6 @@
 destdir=$(HOME)/.local/share/gnome-shell/extensions/uptime-indicator@gniourfgniourf.gmail.com
-files=AUTHORS COPYING extension.js metadata.json Screenshot.png TODO
+filestoinstall=AUTHORS COPYING extension.js metadata.json
+files=$(filestoinstall) Screenshot.png TODO
 
 all:
 	@echo "make options:"
@@ -10,7 +11,7 @@ all:
 
 install:
 	@install -Cdv "$(destdir)"
-	@install -Cv -m 644 $(files) "$(destdir)"
+	@install -Cv -m 644 $(filestoinstall) "$(destdir)"
 
 uninstall:
 	@-rm -rfv "$(destdir)"
