@@ -6,5 +6,6 @@
    "uuid": "uptime-indicator@gniourfgniourf.gmail.com",
    "name": "Uptime Indicator",
    "description": "Indicates uptime in status area. When clicked, a popup menu indicates the date when the system was started.",
+   "url": "https://github.com/Gniourf/Uptime-Indicator",
    "version": 4
 }
