@@ -45,6 +45,9 @@ const UptimeIndicator=new Lang.Class(
       this._mymenutitle=new PopupMenu.PopupMenuItem(this._started, { reactive: false });
       this.menu.addMenuItem(this._mymenutitle);
 
+      this.actor.connect('button-press-event', Lang.bind(this, this._refresh));
+      this.actor.connect('key-press-event', Lang.bind(this, this._refresh));
+
       this._set_refresh_rate(1)
       this._change_timeoutloop=true;
       this._timeout=null;
@@ -54,12 +57,6 @@ const UptimeIndicator=new Lang.Class(
    _get_timestamps: function()
    {
       return Shell.get_file_contents_utf8_sync('/proc/uptime').split(" ");
-   },
-
-   _onButtonPress: function()
-   {
-      this._refresh();
-      this.menu.toggle();
    },
 
    _refresh: function()
