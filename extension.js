@@ -14,6 +14,7 @@ const Main=imports.ui.main;
 const Shell=imports.gi.Shell;
 const Mainloop=imports.mainloop;
 const Lang=imports.lang;
+const PopupMenu=imports.ui.popupMenu;
 
 let _uptime_indicator_object=null;
 
@@ -21,27 +22,50 @@ const UptimeIndicator=new Lang.Class(
 {
    Name: 'UptimeIndicator.UptimeIndicator',
    Extends: PanelMenu.Button,
+   buttonText: null,
+   _timeout: null,
+   _refresh_rate: 1,
+   _change_timeout_loop: false,
+   _started: null,
 
    _init: function()
    {
-      this.parent(0.0,"Uptime Indicator");
+      this.parent(0.0,"Uptime Indicator",false);
 
-      this.button = new St.Bin({ style_class: "panel-button", reactive: true, can_focus: true, x_fill: true, y_fill: false, track_hover: true });
       this.buttonText=new St.Label();
       this.buttonText.set_style("text-align:center;font-style:italic;");
-      this.button.set_child(this.buttonText);
-      this.button.connect('button-press-event',Lang.bind(this,this._refresh));
-      this.actor.add_actor(this.button);
+      this.actor.add_actor(this.buttonText);
 
-      this._set_refresh_rate(30)
+      /* Find starting date and */
+      timestamp=this._get_timestamps()[0];
+      let date=new Date();
+      date.setTime(date-timestamp*1000)
+      this._started=date.toLocaleString();
+      /* and prepare menu */
+      this._mymenutitle=new PopupMenu.PopupMenuItem(this._started, { reactive: false });
+      this.menu.addMenuItem(this._mymenutitle);
+
+      this._set_refresh_rate(1)
       this._change_timeoutloop=true;
       this._timeout=null;
       this._refresh();
    },
 
+   _get_timestamps: function()
+   {
+      return Shell.get_file_contents_utf8_sync('/proc/uptime').split(" ");
+   },
+
+   _onButtonPress: function()
+   {
+      this._refresh();
+      this.menu.toggle();
+   },
+
    _refresh: function()
    {
-      this.buttonText.set_text(this._update_uptime())
+      let text=this._update_uptime();
+      this.buttonText.set_text(text)
       if(this._change_timeoutloop) {
          this._remove_timeout();
          this._timeout=Mainloop.timeout_add_seconds(this._refresh_rate,Lang.bind(this, this._refresh));
@@ -69,8 +93,7 @@ const UptimeIndicator=new Lang.Class(
 
    _update_uptime: function()
    {
-      let timestamps=Shell.get_file_contents_utf8_sync('/proc/uptime').split(" ");
-      let timestamps_s=timestamps[0];
+      let timestamps_s=this._get_timestamps()[0];
       let minutes=Math.floor((timestamps_s/60)%60);
       let hours=Math.floor((timestamps_s/3600)%24);
       let days=Math.floor((timestamps_s/86400)%365);
@@ -78,12 +101,12 @@ const UptimeIndicator=new Lang.Class(
       let label_text="?";
       if(years>0) {
          label_text=years+"Y"+days+"D";
-         /* Come back at the end of this year */
+         /* Come back next year */
          this._set_refresh_rate(31536000-(timestamps_s)%31536000);
       }
       else if(days>99) {
          label_text=days+"D";
-         /* Come back at the end of this day */
+         /* Come back next day */
          this._set_refresh_rate(86400-(timestamps_s%86400))
       }
       else if(days>0) {
@@ -91,7 +114,7 @@ const UptimeIndicator=new Lang.Class(
             hours="0" + hours;
          }
          label_text=days+"D"+hours+"h";
-         /* Come back at the end of this hour */
+         /* Come back next hour */
          this._set_refresh_rate(3600-(timestamps_s%3600))
       }
       else {
@@ -99,7 +122,7 @@ const UptimeIndicator=new Lang.Class(
             minutes="0" + minutes;
          }
          label_text=hours+":"+minutes;
-         /* Come back at the end of this minute */
+         /* Come back next minute */
          this._set_refresh_rate(60-(timestamps_s%60));
       }
       return label_text;
@@ -120,19 +143,23 @@ function init(metadata)
 // Enable function
 function enable()
 {
-   _uptime_indicator_object=new UptimeIndicator;
    try {
+      _uptime_indicator_object=new UptimeIndicator;
       Main.panel.addToStatusArea('uptime-indicator',_uptime_indicator_object);
    }
    catch(err) {
-      global.log("Error in Uptime Indicator extension: "+err.message);
+      global.log("Error enabling Uptime Indicator extension: "+err.message);
+      _uptime_indicator_object.destroy();
+      _uptime_indicator_object=null;
    }
 }
 
 // Disable function
 function disable()
 {
-   _uptime_indicator_object.destroy();
-   _uptime_indicator_object=null;
+   if(_uptime_indicator_object) {
+      _uptime_indicator_object.destroy();
+      _uptime_indicator_object=null;
+   }
 }
 
