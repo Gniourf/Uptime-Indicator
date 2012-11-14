@@ -37,7 +37,7 @@ const UptimeIndicator=new Lang.Class(
       this.actor.add_actor(this.buttonText);
 
       /* Find starting date and */
-      timestamp=this._get_timestamps()[0];
+      let timestamp=this._get_timestamps()[0];
       let date=new Date();
       date.setTime(date-timestamp*1000)
       this._started=date.toLocaleString();
