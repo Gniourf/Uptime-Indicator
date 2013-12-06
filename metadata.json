@@ -2,7 +2,8 @@
    "shell-version": [
       "3.4",
       "3.6",
-      "3.8"
+      "3.8",
+      "3.10"
    ],
    "uuid": "uptime-indicator@gniourfgniourf.gmail.com",
    "name": "Uptime Indicator",
