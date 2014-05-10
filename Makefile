@@ -1,5 +1,5 @@
 destdir=$(HOME)/.local/share/gnome-shell/extensions/uptime-indicator@gniourfgniourf.gmail.com
-filestoinstall=AUTHORS COPYING extension.js metadata.json
+filestoinstall=AUTHORS COPYING extension.js metadata.json stylesheet.css
 
 all:
 	@echo "make options:"

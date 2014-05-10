@@ -6,6 +6,10 @@
  *
  * Author: Gniourf, gniourfgniourf@gmail.com
  * Date: 2012-20-10
+ *
+ * Changes:
+ *    2014-05-10: moved style to css and added Clutter to vertically align the
+ *    St.Label (thanks to varunoberoi)
  */
 
 const PanelMenu=imports.ui.panelMenu;
@@ -15,6 +19,7 @@ const Shell=imports.gi.Shell;
 const Mainloop=imports.mainloop;
 const Lang=imports.lang;
 const PopupMenu=imports.ui.popupMenu;
+const Clutter=imports.gi.Clutter;
 
 let _uptime_indicator_object=null;
 
@@ -32,8 +37,10 @@ const UptimeIndicator=new Lang.Class(
    {
       this.parent(0.0,"Uptime Indicator",false);
 
-      this.buttonText=new St.Label();
-      this.buttonText.set_style("text-align:center;font-style:italic;");
+      this.buttonText=new St.Label({
+         name: "uptime-indicator-buttonText",
+         y_align: Clutter.ActorAlign.CENTER
+      });
       this.actor.add_actor(this.buttonText);
 
       /* Find starting date and */
@@ -140,14 +147,9 @@ function init(metadata)
 // Enable function
 function enable()
 {
-   try {
-      _uptime_indicator_object=new UptimeIndicator;
+   _uptime_indicator_object=new UptimeIndicator;
+   if(_uptime_indicator_object) {
       Main.panel.addToStatusArea('uptime-indicator',_uptime_indicator_object);
-   }
-   catch(err) {
-      global.log("Error enabling Uptime Indicator extension: "+err.message);
-      _uptime_indicator_object.destroy();
-      _uptime_indicator_object=null;
    }
 }
 
