@@ -46,7 +46,7 @@ const UptimeIndicator = GObject.registerClass(
                 name: "uptime-indicator-buttonText",
                 y_align: Clutter.ActorAlign.CENTER
             });
-            this.actor.add_actor(this.buttonText);
+            this.add_actor(this.buttonText);
 
             /* Find starting date and */
             let timestamp = this._get_timestamps()[0];
@@ -57,8 +57,8 @@ const UptimeIndicator = GObject.registerClass(
             this._mymenutitle = new PopupMenu.PopupMenuItem(this._started, { reactive: false });
             this.menu.addMenuItem(this._mymenutitle);
 
-            this.actor.connect('button-press-event', this._refresh.bind(this));
-            this.actor.connect('key-press-event', this._refresh.bind(this));
+            this.connect('button-press-event', this._refresh.bind(this));
+            this.connect('key-press-event', this._refresh.bind(this));
 
             this._set_refresh_rate(1)
             this._change_timeoutloop = true;
