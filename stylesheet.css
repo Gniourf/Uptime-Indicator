@@ -1,11 +1,11 @@
-#uptime-indicator-buttonText {
+.uptime-indicator-buttonText {
   text-align: center;
 }
 
-#uptime-indicator-buttonText .normal {
+.uptime-indicator-buttonText {
   font-style: normal;
 }
 
-#uptime-indicator-buttonText .italic {
+.uptime-indicator-buttonText {
   font-style: italic;
 }
