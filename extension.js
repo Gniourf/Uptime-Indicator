@@ -31,7 +31,6 @@ import * as PopupMenu from 'resource:///org/gnome/shell/ui/popupMenu.js';
 import * as Main  from 'resource:///org/gnome/shell/ui/main.js';
 
 
-const loop = new GLib.MainLoop(null, false);
 let _uptime_indicator_object = null;
 
 export default class UptimeIndicatorExtension extends Extension {
