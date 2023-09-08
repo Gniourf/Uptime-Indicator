@@ -1,13 +1,10 @@
 {
    "shell-version": [
-      "3.38",
-      "40",
-      "42",
-      "43",
-      "44"
+      "45"
    ],
    "uuid": "uptime-indicator@gniourfgniourf.gmail.com",
    "name": "Uptime Indicator",
    "description": "Indicates uptime in status area. When clicked, a popup menu indicates the date when the system was started.",
-   "url": "https://github.com/Gniourf/Uptime-Indicator"
+   "url": "https://github.com/Gniourf/Uptime-Indicator",
+   "version": 100
 }
