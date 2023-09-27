@@ -1,8 +1,6 @@
 {
    "shell-version": [
-      "3.38",
-      "40",
-      "42"
+      "45"
    ],
    "uuid": "uptime-indicator@gniourfgniourf.gmail.com",
    "name": "Uptime Indicator",
