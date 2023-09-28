@@ -87,14 +87,16 @@ export default class UptimeIndicatorExtension extends Extension {
                     this.buttonText.set_text(text)
                     if(this._change_timeoutloop) {
                         this._remove_timeout();
-                        let safeTimeout = Math.min(this._refresh.bind(this), 2147483)
-                        this._timeout = GLib.timeout_add_seconds(this._refresh_rate, safeTimeout, () => {
-                            return GLib.SOURCE_REMOVE;
-                        });
+                        let safeTimeout = Math.min(this._refresh_rate, 2147483)
+                        // this._timeout = GLib.timeout_add_seconds(this._refresh_rate, safeTimeout, () => {
+                        //     return GLib.SOURCE_REMOVE;
+                        // });
+                        this._timeout = GLib.timeout_add_seconds(
+                            GLib.PRIORITY_DEFAULT, safeTimeout, this._refresh.bind(this));
                         this._change_timeoutloop = false;
-                        return false;
+                        return GLib.SOURCE_REMOVE;
                     }
-                    return true;
+                    return GLib.SOURCE_CONTINUE;
                 }
 
                 _set_refresh_rate(refresh_rate)
