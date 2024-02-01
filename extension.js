@@ -53,7 +53,7 @@ let UptimeIndicatorClass = GObject.registerClass(
                 name: "uptime-indicator-buttonText",
                 y_align: Clutter.ActorAlign.CENTER
             });
-            this.add_actor(this.buttonText);
+            this.add_child(this.buttonText);
 
             /* Find starting date and */
             let timestamp = this._get_timestamps()[0];
